@@ -68,6 +68,255 @@ flowchart TD
 
 ---
 
+## 🗄️ Database Architecture & Table Schemas
+
+Quizzr utilizes **PostgreSQL** hosted on **Supabase** as its relational database. The database is cleanly architected into two modular subsystems:
+1. **Curated Catalog Subsystem**: Powers the standard academic subjects, progressive unlock pathways, evaluation scoring, and historical review logs.
+2. **Custom Assessment Subsystem**: Operates completely independently to support custom quiz authoring, variable-length multiple-choice options, expiring shareable access tokens, candidate response tracking, and question dispute reporting.
+
+### **Entity-Relationship (ER) Diagram**
+
+```mermaid
+erDiagram
+    subjects ||--o{ quizzes : "has"
+    quizzes ||--o{ questions : "contains"
+    quizzes ||--o{ user_scores : "evaluates"
+    user_scores ||--o{ user_responses : "records"
+    questions ||--o{ user_responses : "references"
+
+    custom_quizzes ||--o{ custom_questions : "contains"
+    custom_quizzes ||--o{ custom_quiz_shares : "generates"
+    custom_quizzes ||--o{ custom_quiz_scores : "evaluates"
+    custom_quiz_scores ||--o{ custom_quiz_responses : "records"
+    custom_questions ||--o{ custom_quiz_responses : "references"
+    custom_quizzes ||--o{ custom_question_reports : "receives"
+    custom_questions ||--o{ custom_question_reports : "flagged_in"
+
+    subjects {
+        uuid id PK
+        text title
+        text description
+        timestamptz created_at
+    }
+
+    quizzes {
+        uuid id PK
+        uuid subject_id FK
+        text title
+        text description
+        int time_limit
+        timestamptz created_at
+    }
+
+    questions {
+        uuid id PK
+        uuid quiz_id FK
+        text question_text
+        jsonb options
+        int correct_option_index
+        timestamptz created_at
+    }
+
+    user_scores {
+        uuid id PK
+        uuid quiz_id FK
+        text user_id
+        text user_name
+        int score
+        timestamptz completed_at
+    }
+
+    user_responses {
+        uuid id PK
+        uuid score_id FK
+        uuid question_id FK
+        int selected_option_index
+    }
+
+    custom_quizzes {
+        uuid id PK
+        text created_by
+        text creator_name
+        text title
+        text description
+        int time_limit
+        timestamptz created_at
+    }
+
+    custom_questions {
+        uuid id PK
+        uuid quiz_id FK
+        text question_text
+        jsonb options
+        int correct_option_index
+        timestamptz created_at
+    }
+
+    custom_quiz_shares {
+        uuid id PK
+        uuid quiz_id FK
+        text share_token UK
+        text created_by
+        timestamptz expires_at
+        timestamptz created_at
+    }
+
+    custom_quiz_scores {
+        uuid id PK
+        uuid quiz_id FK
+        text user_id
+        text user_name
+        int score
+        timestamptz completed_at
+    }
+
+    custom_quiz_responses {
+        uuid id PK
+        uuid score_id FK
+        uuid question_id FK
+        int selected_option_index
+    }
+
+    custom_question_reports {
+        uuid id PK
+        uuid quiz_id FK
+        uuid question_id FK
+        text reporter_user_id
+        text reporter_name
+        text comment
+        timestamptz created_at
+    }
+```
+
+---
+
+### **Detailed Table Specifications**
+
+#### **1. Core Subject & Catalog Tables**
+
+##### Table: `subjects`
+Stores academic subject categories (e.g., Theory of Computation, Machine Learning, Operating System, Java Programming).
+| Column Name | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Unique identifier for each subject |
+| `title` | `TEXT` | `NOT NULL` | Display title of the subject |
+| `description` | `TEXT` | Nullable | Detailed description and syllabus scope |
+| `created_at` | `TIMESTAMPTZ` | `DEFAULT NOW()` | Record creation timestamp |
+
+##### Table: `quizzes`
+Standard quizzes belonging to a specific academic subject.
+| Column Name | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Unique identifier for the quiz |
+| `subject_id` | `UUID` | `FOREIGN KEY ➔ subjects(id) ON DELETE CASCADE` | Link to parent academic subject |
+| `title` | `TEXT` | `NOT NULL` | Descriptive title (e.g., "OS Concepts & Architecture") |
+| `description` | `TEXT` | Nullable | Overview of quiz topics |
+| `time_limit` | `INTEGER` | Nullable | Examination time limit in minutes (e.g., 15) |
+| `created_at` | `TIMESTAMPTZ` | `DEFAULT NOW()` | Timestamp of quiz addition |
+
+##### Table: `questions`
+Multiple-choice questions associated with catalog quizzes.
+| Column Name | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Unique identifier for the question |
+| `quiz_id` | `UUID` | `FOREIGN KEY ➔ quizzes(id) ON DELETE CASCADE` | Link to corresponding quiz |
+| `question_text` | `TEXT` | `NOT NULL` | Question prompt or problem statement |
+| `options` | `JSONB` | `NOT NULL` | Array of choices, e.g. `["Option A", "Option B", "Option C", "Option D"]` |
+| `correct_option_index` | `INTEGER` | `NOT NULL` | Zero-based index indicating the correct answer |
+| `created_at` | `TIMESTAMPTZ` | `DEFAULT NOW()` | Question creation timestamp |
+
+##### Table: `user_scores`
+Audit log of completed attempts on catalog quizzes, powering adaptive progression unlocks and leaderboards.
+| Column Name | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Unique attempt record identifier |
+| `quiz_id` | `UUID` | `FOREIGN KEY ➔ quizzes(id) ON DELETE CASCADE` | Link to attempted quiz |
+| `user_id` | `TEXT` | `NOT NULL` | Clerk user authentication ID |
+| `user_name` | `TEXT` | `DEFAULT 'Anonymous'` | Candidate full name or display name |
+| `score` | `INTEGER` | `NOT NULL` | Total number of correctly answered questions |
+| `completed_at` | `TIMESTAMPTZ` | `DEFAULT NOW()` | Submission timestamp (used for leaderboard tie-breakers) |
+
+##### Table: `user_responses`
+Granular question-by-question responses for detailed candidate attempt review.
+| Column Name | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Unique response record identifier |
+| `score_id` | `UUID` | `FOREIGN KEY ➔ user_scores(id) ON DELETE CASCADE` | Link to the parent attempt score record |
+| `question_id` | `UUID` | `FOREIGN KEY ➔ questions(id) ON DELETE CASCADE` | Link to the evaluated question |
+| `selected_option_index` | `INTEGER` | Nullable | Zero-based option chosen by candidate (`NULL` if skipped) |
+
+---
+
+#### **2. Custom Assessment, Sharing & Feedback Tables**
+
+##### Table: `custom_quizzes`
+Bespoke quizzes created by registered users and instructors.
+| Column Name | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Unique custom quiz identifier |
+| `created_by` | `TEXT` | `NOT NULL` | Clerk user ID of quiz creator |
+| `creator_name` | `TEXT` | `DEFAULT 'Anonymous'` | Full name or username of creator |
+| `title` | `TEXT` | `NOT NULL` | Title of custom evaluation |
+| `description` | `TEXT` | Nullable | Instructions, scope, or guidelines |
+| `time_limit` | `INTEGER` | Nullable | Duration limit in minutes (`NULL` indicates Untimed) |
+| `created_at` | `TIMESTAMPTZ` | `DEFAULT NOW()` | Date and time created |
+
+##### Table: `custom_questions`
+Questions belonging to custom quizzes, supporting variable option counts.
+| Column Name | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Unique custom question identifier |
+| `quiz_id` | `UUID` | `FOREIGN KEY ➔ custom_quizzes(id) ON DELETE CASCADE` | Link to parent custom quiz |
+| `question_text` | `TEXT` | `NOT NULL` | Problem statement / question prompt |
+| `options` | `JSONB` | `NOT NULL` | Flexible option array (e.g., 2 for True/False, 3, 4, 5+ choices) |
+| `correct_option_index` | `INTEGER` | `NOT NULL` | Zero-based index of the designated correct key |
+| `created_at` | `TIMESTAMPTZ` | `DEFAULT NOW()` | Question creation timestamp |
+
+##### Table: `custom_quiz_shares`
+Temporary shareable access tokens with expiration control and revocability.
+| Column Name | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Unique share entry ID |
+| `quiz_id` | `UUID` | `FOREIGN KEY ➔ custom_quizzes(id) ON DELETE CASCADE` | Link to shared quiz |
+| `share_token` | `TEXT` | `NOT NULL`, `UNIQUE` | Non-guessable alphanumeric token used in URL |
+| `created_by` | `TEXT` | `NOT NULL` | Clerk user ID of creator who issued link |
+| `expires_at` | `TIMESTAMPTZ` | `NOT NULL` | Timestamp after which access token is invalidated |
+| `created_at` | `TIMESTAMPTZ` | `DEFAULT NOW()` | Link issuance timestamp |
+
+##### Table: `custom_quiz_scores`
+Evaluated attempts for custom quizzes, enforcing single-attempt policies.
+| Column Name | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Unique attempt record identifier |
+| `quiz_id` | `UUID` | `FOREIGN KEY ➔ custom_quizzes(id) ON DELETE CASCADE` | Link to evaluated custom quiz |
+| `user_id` | `TEXT` | `NOT NULL` | Clerk user ID of the candidate |
+| `user_name` | `TEXT` | `DEFAULT 'Anonymous'` | Candidate display name |
+| `score` | `INTEGER` | `NOT NULL` | Candidate's total correct answers |
+| `completed_at` | `TIMESTAMPTZ` | `DEFAULT NOW()` | Final submission timestamp |
+
+##### Table: `custom_quiz_responses`
+Candidate choice records for custom quizzes, used by creators to inspect class answers.
+| Column Name | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Unique response record identifier |
+| `score_id` | `UUID` | `FOREIGN KEY ➔ custom_quiz_scores(id) ON DELETE CASCADE` | Link to attempt score record |
+| `question_id` | `UUID` | `FOREIGN KEY ➔ custom_questions(id) ON DELETE CASCADE` | Link to custom question |
+| `selected_option_index` | `INTEGER` | Nullable | Option index chosen by candidate (`NULL` if unanswered) |
+
+##### Table: `custom_question_reports`
+Candidate question dispute and feedback registry.
+| Column Name | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | `PRIMARY KEY`, `DEFAULT gen_random_uuid()` | Unique report identifier |
+| `quiz_id` | `UUID` | `FOREIGN KEY ➔ custom_quizzes(id) ON DELETE CASCADE` | Link to custom quiz |
+| `question_id` | `UUID` | `FOREIGN KEY ➔ custom_questions(id) ON DELETE CASCADE` | Link to reported question |
+| `reporter_user_id` | `TEXT` | `NOT NULL` | Clerk user ID of reporting candidate |
+| `reporter_name` | `TEXT` | `DEFAULT 'Candidate'` | Display name of candidate |
+| `comment` | `TEXT` | `NOT NULL` | Feedback, dispute rationale, or correction description |
+| `created_at` | `TIMESTAMPTZ` | `DEFAULT NOW()` | Timestamp of report submission |
+
+---
+
 ## 🌟 Comprehensive Feature Breakdown
 
 ### 1. Authentication, Identity & Session Security
@@ -195,4 +444,3 @@ Shared across standard catalog quizzes ([`QuizRunner.jsx`](src/pages/QuizRunner.
 - **Responsive Tables**: All 4-column data tables (Leaderboards and History) feature dedicated horizontal scroll containers (`overflow-x-auto min-w-[500px]`), ensuring clean rendering without column squishing on narrow mobile screens.
 
 ---
-
