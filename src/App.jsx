@@ -60,12 +60,7 @@ function App() {
           </>
         } />
 
-        <Route path="/quiz/shared/:shareToken" element={
-          <>
-            <SignedIn><SharedQuiz /></SignedIn>
-            <SignedOut><RedirectToSignIn /></SignedOut>
-          </>
-        } />
+        <Route path="/quiz/shared/:shareToken" element={<SharedQuiz />} />
 
         <Route path="/custom-quiz/:quizId" element={
           <>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useUser } from '@clerk/clerk-react';
+import { useUser, SignInButton } from '@clerk/clerk-react';
 import { supabase } from '../lib/supabase';
 import { Clock, HelpCircle, AlertTriangle, PlayCircle, ShieldCheck, ArrowRight, Infinity, CheckCircle2, Trophy } from 'lucide-react';
 import Spinner from '../components/Spinner';
@@ -37,16 +37,21 @@ export default function SharedQuiz() {
         .eq('share_token', shareToken)
         .maybeSingle();
 
-      if (shareError || !share) {
+      if (shareError) {
+        console.error("Error fetching share record in SharedQuiz:", shareError);
+      }
+
+      if (!share) {
         setErrorStatus('not_found');
         setLoading(false);
         return;
       }
 
+      setShareData(share);
+
       // 2. Check Expiration
       const isExpired = new Date(share.expires_at) < new Date();
       if (isExpired) {
-        setShareData(share);
         setErrorStatus('expired');
         setLoading(false);
         return;
@@ -59,11 +64,17 @@ export default function SharedQuiz() {
         .eq('id', share.quiz_id)
         .maybeSingle();
 
-      if (quizError || !quiz) {
+      if (quizError) {
+        console.error("Error fetching quiz in SharedQuiz:", quizError);
+      }
+
+      if (!quiz) {
         setErrorStatus('not_found');
         setLoading(false);
         return;
       }
+
+      setQuizData(quiz);
 
       // 4. Fetch Question Count
       const { count } = await supabase
@@ -276,14 +287,26 @@ export default function SharedQuiz() {
 
         {/* Action Button */}
         <div className="pt-2">
-          <button
-            onClick={() => navigate(`/custom-quiz/${quizData.id}`)}
-            className="btn btn-primary w-full py-3.5 sm:py-4 text-sm sm:text-base font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20"
-          >
-            <PlayCircle size={18} />
-            Start Quiz Now
-            <ArrowRight size={18} className="ml-1" />
-          </button>
+          {user ? (
+            <button
+              onClick={() => navigate(`/custom-quiz/${quizData.id}`)}
+              className="btn btn-primary w-full py-3.5 sm:py-4 text-sm sm:text-base font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20"
+            >
+              <PlayCircle size={18} />
+              Start Quiz Now
+              <ArrowRight size={18} className="ml-1" />
+            </button>
+          ) : (
+            <SignInButton mode="modal">
+              <button
+                className="btn btn-primary w-full py-3.5 sm:py-4 text-sm sm:text-base font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20"
+              >
+                <PlayCircle size={18} />
+                Sign in to Start Quiz
+                <ArrowRight size={18} className="ml-1" />
+              </button>
+            </SignInButton>
+          )}
         </div>
       </div>
     </div>
