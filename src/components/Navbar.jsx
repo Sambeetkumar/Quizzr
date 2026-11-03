@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation, Link } from 'react-router-dom';
 import { UserButton } from '@clerk/clerk-react';
-import { Menu, X, Home, PlusCircle, History } from 'lucide-react';
+import { Menu, X, Home, PlusCircle, History, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
 
   // Close mobile menu whenever location changes
   useEffect(() => {
@@ -36,8 +38,8 @@ export default function Navbar() {
                 className={({ isActive }) => 
                   `px-3.5 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${
                     isActive 
-                      ? 'bg-white/10 text-white shadow-sm' 
-                      : 'text-textSecondary hover:text-white hover:bg-white/5'
+                      ? 'bg-black/10 dark:bg-white/10 text-textPrimary shadow-sm' 
+                      : 'text-textSecondary hover:text-textPrimary hover:bg-black/5 dark:hover:bg-white/5'
                   }`
                 }
               >
@@ -48,8 +50,23 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Right side: User Profile & Mobile Toggle */}
+        {/* Right side: Mode Switch, User Profile & Mobile Toggle */}
         <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Mode switch button directly to the left of profile icon */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? "Switch to light mode" : "Switch to dark mode"}
+            title={theme === 'dark' ? "Switch to light mode" : "Switch to dark mode"}
+            className="w-9 h-9 rounded-xl flex items-center justify-center bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 text-textSecondary hover:text-textPrimary transition-all cursor-pointer shadow-xs"
+          >
+            {theme === 'dark' ? (
+              <Sun size={18} className="text-amber-400 hover:rotate-45 transition-transform" />
+            ) : (
+              <Moon size={18} className="text-indigo-600 hover:-rotate-12 transition-transform" />
+            )}
+          </button>
+
           <div className="flex items-center shrink-0">
             <UserButton afterSignOutUrl="/" />
           </div>
@@ -59,7 +76,7 @@ export default function Navbar() {
             type="button"
             onClick={() => setIsOpen(prev => !prev)}
             aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-            className="md:hidden w-9 h-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/5 text-textSecondary hover:text-white transition-colors cursor-pointer"
+            className="md:hidden w-9 h-9 rounded-xl flex items-center justify-center bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 text-textSecondary hover:text-textPrimary transition-colors cursor-pointer"
           >
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -68,7 +85,7 @@ export default function Navbar() {
 
       {/* Mobile Collapsible Dropdown */}
       {isOpen && (
-        <div className="md:hidden pt-3 mt-3 border-t border-white/10 flex flex-col gap-1.5 animate-fadeIn">
+        <div className="md:hidden pt-3 mt-3 border-t border-black/10 dark:border-white/10 flex flex-col gap-1.5 animate-fadeIn">
           {navLinks.map(({ to, label, icon: Icon }) => (
             <NavLink 
               key={to}
@@ -78,7 +95,7 @@ export default function Navbar() {
                 `px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-3 ${
                   isActive 
                     ? 'bg-accent-gradient text-white shadow-md' 
-                    : 'text-textSecondary hover:text-white hover:bg-white/5 bg-white/2'
+                    : 'text-textSecondary hover:text-textPrimary hover:bg-black/5 dark:hover:bg-white/5'
                 }`
               }
             >

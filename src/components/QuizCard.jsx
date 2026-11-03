@@ -28,10 +28,10 @@ export default function QuizCard({
     }`}>
       <div className="mb-5 sm:mb-6">
         <div className="flex items-start justify-between gap-2.5 sm:gap-3 mb-2.5">
-          <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight">{displayTitle}</h3>
+          <h3 className="text-lg sm:text-xl font-bold text-textPrimary tracking-tight">{displayTitle}</h3>
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-wrap justify-end">
             {isCustom ? (
-              <span className="text-[11px] sm:text-xs px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-accentPrimary/20 text-accentPrimary font-semibold shrink-0 border border-accentPrimary/30">
+              <span className="text-[11px] sm:text-xs px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-accentPrimary/15 text-accentPrimary font-semibold shrink-0 border border-accentPrimary/25">
                 Custom
               </span>
             ) : (
@@ -42,7 +42,7 @@ export default function QuizCard({
                   </span>
                 )}
                 {isLocked && (
-                  <span className="text-[11px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-amber-500/20 text-amber-300 font-semibold shrink-0 border border-amber-500/30 flex items-center gap-1">
+                  <span className="text-[11px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-amber-500/15 text-amber-800 dark:text-amber-300 font-semibold shrink-0 border border-amber-500/30 flex items-center gap-1">
                     <Lock size={11} />
                     Locked
                   </span>
@@ -56,17 +56,17 @@ export default function QuizCard({
         </p>
         <div className="flex items-center gap-3 sm:gap-5 flex-wrap pt-1">
           {quiz.time_limit ? (
-            <div className="flex items-center gap-1.5 text-xs sm:text-sm text-indigo-400 font-medium">
+            <div className="flex items-center gap-1.5 text-xs sm:text-sm text-indigo-600 dark:text-indigo-400 font-medium">
               <Clock size={15} />
               <span>{quiz.time_limit} Minutes</span>
             </div>
           ) : (
-            <div className="flex items-center gap-1.5 text-xs sm:text-sm text-indigo-300 font-medium">
+            <div className="flex items-center gap-1.5 text-xs sm:text-sm text-indigo-600 dark:text-indigo-300 font-medium">
               <Infinity size={15} />
               <span>Untimed</span>
             </div>
           )}
-          <div className="flex items-center gap-1.5 text-xs sm:text-sm text-emerald-400 font-medium">
+          <div className="flex items-center gap-1.5 text-xs sm:text-sm text-emerald-700 dark:text-emerald-400 font-medium">
             <HelpCircle size={15} />
             <span>{questionsCount} Questions</span>
           </div>
@@ -79,7 +79,7 @@ export default function QuizCard({
             <button 
               type="button"
               disabled 
-              className="btn bg-white/10 text-textSecondary/60 cursor-not-allowed py-2 px-3 sm:py-2.5 sm:px-4 text-xs sm:text-sm font-semibold flex items-center gap-1.5 border border-white/5 opacity-70"
+              className="btn bg-black/10 dark:bg-white/10 text-textSecondary/60 cursor-not-allowed py-2 px-3 sm:py-2.5 sm:px-4 text-xs sm:text-sm font-semibold flex items-center gap-1.5 border border-black/10 dark:border-white/5 opacity-70"
               title={lockReason}
             >
               <Lock size={15} />
@@ -100,7 +100,7 @@ export default function QuizCard({
             <button 
               type="button"
               onClick={() => onShare(quiz)} 
-              className="btn btn-outline py-2 px-3 sm:py-2.5 sm:px-4 text-xs sm:text-sm text-indigo-400 hover:text-white font-semibold"
+              className="btn btn-outline py-2 px-3 sm:py-2.5 sm:px-4 text-xs sm:text-sm text-indigo-600 dark:text-indigo-400 hover:text-textPrimary font-semibold"
               title="Generate temporary shareable link"
             >
               <Share2 size={15} className="mr-1 sm:mr-1.5" />
@@ -110,22 +110,22 @@ export default function QuizCard({
         </div>
 
         {isLocked && lockReason && (
-          <p className="text-xs text-amber-300/90 flex items-center gap-1.5 font-medium">
-            <Lock size={13} className="shrink-0 text-amber-400" />
+          <p className="text-xs text-amber-800 dark:text-amber-300/90 flex items-center gap-1.5 font-medium">
+            <Lock size={13} className="shrink-0 text-amber-500 dark:text-amber-400" />
             <span>{lockReason}</span>
           </p>
         )}
 
         {isCustom && (onViewAttempts || onViewReports) && (
-          <div className="flex items-center gap-3 pt-3.5 mt-1 border-t border-white/10 flex-wrap">
+          <div className="flex items-center gap-3 pt-3.5 mt-1 border-t border-black/10 dark:border-white/10 flex-wrap">
             {onViewAttempts && (
               <button
                 type="button"
                 onClick={() => onViewAttempts(quiz)}
-                className="inline-flex items-center gap-2 text-xs text-textSecondary hover:text-white px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all cursor-pointer font-medium"
+                className="inline-flex items-center gap-2 text-xs text-textSecondary hover:text-textPrimary px-3.5 py-2 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/5 transition-all cursor-pointer font-medium"
               >
                 <Users size={14} className="text-accentPrimary" />
-                <span>Attempts: <strong className="text-white ml-0.5">{attemptsCount}</strong></span>
+                <span>Attempts: <strong className="text-textPrimary ml-0.5">{attemptsCount}</strong></span>
               </button>
             )}
 
@@ -135,12 +135,12 @@ export default function QuizCard({
                 onClick={() => onViewReports(quiz)}
                 className={`inline-flex items-center gap-2 text-xs px-3.5 py-2 rounded-xl transition-all cursor-pointer font-medium ${
                   reportsCount > 0 
-                    ? 'bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 border border-amber-500/30 shadow-sm shadow-amber-500/10' 
-                    : 'bg-white/5 text-textSecondary hover:text-white hover:bg-white/10 border border-white/5'
+                    ? 'bg-amber-500/15 text-amber-800 dark:text-amber-300 hover:bg-amber-500/25 border border-amber-500/30 shadow-xs' 
+                    : 'bg-black/5 dark:bg-white/5 text-textSecondary hover:text-textPrimary hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/5'
                 }`}
               >
-                <Flag size={14} className={reportsCount > 0 ? 'text-amber-400' : 'text-textSecondary'} />
-                <span>Reports: <strong className={reportsCount > 0 ? 'text-amber-300 ml-0.5' : 'text-white ml-0.5'}>{reportsCount}</strong></span>
+                <Flag size={14} className={reportsCount > 0 ? 'text-amber-500 dark:text-amber-400' : 'text-textSecondary'} />
+                <span>Reports: <strong className={reportsCount > 0 ? 'text-amber-800 dark:text-amber-300 ml-0.5' : 'text-textPrimary ml-0.5'}>{reportsCount}</strong></span>
               </button>
             )}
           </div>

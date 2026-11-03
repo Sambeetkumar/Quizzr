@@ -65,13 +65,13 @@ export default function Leaderboard() {
       <header className="flex items-start sm:items-center gap-3 sm:gap-6 mb-6 sm:mb-8">
         <button
           onClick={() => navigate(`/subject/${quiz.subject_id}`)}
-          className="flex shrink-0 items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full text-white cursor-pointer transition-all border border-white/5 bg-white/5 hover:bg-white/10 hover:-translate-x-0.5 mt-0.5 sm:mt-0"
+          className="flex shrink-0 items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full text-textPrimary cursor-pointer transition-all border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 hover:-translate-x-0.5 mt-0.5 sm:mt-0 shadow-xs"
         >
           <ArrowLeft size={18} />
         </button>
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2.5 sm:gap-3">
-            <Trophy className="text-yellow-400 shrink-0" size={26} />
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2.5 sm:gap-3 text-textPrimary">
+            <Trophy className="text-amber-500 dark:text-yellow-400 shrink-0" size={26} />
             Leaderboard
           </h1>
           <div className="flex items-center gap-2 mt-1 flex-wrap">
@@ -88,8 +88,8 @@ export default function Leaderboard() {
       {/* Leaderboard Table */}
       {entries.length === 0 ? (
         <div className="glass-panel p-8 sm:p-16 text-center flex flex-col items-center gap-4">
-          <Trophy size={48} className="text-white/20" />
-          <h3 className="text-xl font-bold text-white">No attempts yet</h3>
+          <Trophy size={48} className="text-black/20 dark:text-white/20" />
+          <h3 className="text-xl font-bold text-textPrimary">No attempts yet</h3>
           <p className="text-textSecondary text-sm sm:text-base">No one has attempted this quiz yet. Be the first!</p>
           <button onClick={() => navigate(`/quiz/${quizId}`)} className="btn btn-primary mt-4">
             Take this Quiz
@@ -100,7 +100,7 @@ export default function Leaderboard() {
           <div className="overflow-x-auto">
             <div className="min-w-[500px]">
               {/* Table Header */}
-              <div className="grid grid-cols-4 gap-4 p-4 sm:p-6 bg-white/5 border-b border-white/5 font-semibold text-textSecondary text-xs sm:text-sm">
+              <div className="grid grid-cols-4 gap-4 p-4 sm:p-6 bg-black/[0.03] dark:bg-white/5 border-b border-black/10 dark:border-white/5 font-semibold text-textSecondary text-xs sm:text-sm">
                 <div>Rank</div>
                 <div>User</div>
                 <div>Score</div>
@@ -108,7 +108,7 @@ export default function Leaderboard() {
               </div>
 
               {/* Table Rows */}
-              <div className="divide-y divide-white/5">
+              <div className="divide-y divide-black/10 dark:divide-white/5">
                 {entries.map((entry, index) => {
                   const percentage = totalQuestions > 0
                     ? Math.round((entry.score / totalQuestions) * 100)
@@ -125,13 +125,13 @@ export default function Leaderboard() {
                   let rowHighlight = '';
                   if (index === 0) {
                     rankDisplay = <span className="text-2xl">🥇</span>;
-                    rowHighlight = 'bg-yellow-500/5';
+                    rowHighlight = 'bg-amber-500/10 dark:bg-yellow-500/5';
                   } else if (index === 1) {
                     rankDisplay = <span className="text-2xl">🥈</span>;
-                    rowHighlight = 'bg-gray-300/5';
+                    rowHighlight = 'bg-black/[0.02] dark:bg-gray-300/5';
                   } else if (index === 2) {
                     rankDisplay = <span className="text-2xl">🥉</span>;
-                    rowHighlight = 'bg-amber-700/5';
+                    rowHighlight = 'bg-amber-700/10 dark:bg-amber-700/5';
                   } else {
                     rankDisplay = <span className="text-lg font-bold text-textSecondary">#{index + 1}</span>;
                   }
@@ -139,10 +139,10 @@ export default function Leaderboard() {
                   return (
                     <div
                       key={entry.id}
-                      className={`grid grid-cols-4 gap-4 p-4 sm:p-6 items-center transition-colors hover:bg-white/5 ${rowHighlight}`}
+                      className={`grid grid-cols-4 gap-4 p-4 sm:p-6 items-center transition-colors hover:bg-black/[0.03] dark:hover:bg-white/5 ${rowHighlight}`}
                     >
                       <div>{rankDisplay}</div>
-                      <div className="font-medium truncate pr-2">{entry.user_name || 'Anonymous'}</div>
+                      <div className="font-medium truncate pr-2 text-textPrimary">{entry.user_name || 'Anonymous'}</div>
                       <div className="font-bold text-accentPrimary">
                         {percentage}%
                         <span className="text-xs sm:text-sm text-textSecondary font-normal ml-1 sm:ml-2">

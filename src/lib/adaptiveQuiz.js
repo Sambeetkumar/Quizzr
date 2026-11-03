@@ -179,18 +179,18 @@ export function getDifficultyBadgeStyle(difficulty = 'easy') {
     case 'hard':
       return {
         label: 'Hard',
-        className: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+        className: 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30',
       };
     case 'medium':
       return {
         label: 'Medium',
-        className: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+        className: 'bg-amber-500/15 text-amber-800 dark:text-amber-300 border-amber-500/30',
       };
     case 'easy':
     default:
       return {
         label: 'Easy',
-        className: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+        className: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30',
       };
   }
 }

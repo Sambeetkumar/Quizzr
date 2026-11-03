@@ -49,13 +49,13 @@ export default function OwnerReportsModal({ quiz, onClose }) {
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto glass-panel p-5 sm:p-8 border border-white/10 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 dark:bg-black/80 backdrop-blur-sm animate-fadeIn">
+      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto glass-panel p-5 sm:p-8 border border-black/10 dark:border-white/10 shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 sm:pb-4 mb-4 sm:mb-6 border-b border-white/10">
+        <div className="flex items-center justify-between pb-3 sm:pb-4 mb-4 sm:mb-6 border-b border-black/10 dark:border-white/10">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-              <Flag className="text-amber-400" size={22} />
+            <h2 className="text-xl sm:text-2xl font-bold text-textPrimary flex items-center gap-2">
+              <Flag className="text-amber-500 dark:text-amber-400" size={22} />
               Candidate Reports & Feedback
             </h2>
             <p className="text-xs sm:text-sm text-textSecondary mt-0.5">{quiz.title}</p>
@@ -63,7 +63,7 @@ export default function OwnerReportsModal({ quiz, onClose }) {
           <button 
             type="button"
             onClick={onClose} 
-            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 text-textSecondary hover:text-white transition-colors shrink-0"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-textSecondary hover:text-textPrimary transition-colors shrink-0"
           >
             <X size={18} />
           </button>
@@ -73,23 +73,23 @@ export default function OwnerReportsModal({ quiz, onClose }) {
           <Spinner message="Loading candidate feedback..." />
         ) : reports.length === 0 ? (
           <div className="p-16 text-center text-textSecondary flex flex-col items-center gap-3">
-            <MessageSquare size={40} className="text-white/20" />
-            <h4 className="text-lg font-bold text-white">No Reports Yet</h4>
+            <MessageSquare size={40} className="text-black/20 dark:text-white/20" />
+            <h4 className="text-lg font-bold text-textPrimary">No Reports Yet</h4>
             <p className="text-sm">Candidates haven't reported any issues or left comments for this quiz.</p>
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200">
+            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-800 dark:text-amber-200 font-medium">
               Total <strong>{reports.length}</strong> comments across <strong>{Object.keys(groupedReports).length}</strong> question(s).
             </div>
 
             {Object.entries(groupedReports).map(([qId, group], groupIdx) => (
-              <div key={qId} className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-4">
-                <div className="border-b border-white/10 pb-3">
+              <div key={qId} className="p-5 rounded-2xl bg-black/[0.03] dark:bg-white/5 border border-black/10 dark:border-white/10 space-y-4">
+                <div className="border-b border-black/10 dark:border-white/10 pb-3">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-accentPrimary block mb-1">
                     Question #{groupIdx + 1}
                   </span>
-                  <h4 className="text-sm font-semibold text-white">{group.questionText}</h4>
+                  <h4 className="text-sm font-semibold text-textPrimary">{group.questionText}</h4>
                 </div>
 
                 <div className="space-y-3">
@@ -99,12 +99,12 @@ export default function OwnerReportsModal({ quiz, onClose }) {
                     });
 
                     return (
-                      <div key={item.id} className="p-3.5 rounded-xl bg-black/40 border border-white/5 text-xs">
+                      <div key={item.id} className="p-3.5 rounded-xl bg-white dark:bg-black/40 border border-black/10 dark:border-white/5 text-xs shadow-xs">
                         <div className="flex items-center justify-between text-textSecondary mb-1.5">
-                          <span className="font-semibold text-white">{item.reporter_name || 'Anonymous Candidate'}</span>
+                          <span className="font-semibold text-textPrimary">{item.reporter_name || 'Anonymous Candidate'}</span>
                           <span>{date}</span>
                         </div>
-                        <p className="text-textPrimary bg-white/5 p-2.5 rounded-lg border border-white/5 text-sm leading-relaxed">
+                        <p className="text-textPrimary bg-black/[0.03] dark:bg-white/5 p-2.5 rounded-lg border border-black/5 dark:border-white/5 text-sm leading-relaxed">
                           "{item.comment}"
                         </p>
                       </div>

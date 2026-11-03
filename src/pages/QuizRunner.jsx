@@ -197,32 +197,32 @@ export default function QuizRunner() {
     return (
       <div className="max-w-2xl mx-auto p-4 sm:p-6 md:p-8 w-full flex flex-col items-center justify-center min-h-[75vh]">
         <div className="w-full glass-panel p-6 sm:p-10 md:p-12 text-center border border-amber-500/20 shadow-xl shadow-amber-500/5">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mx-auto mb-5 sm:mb-6 text-amber-400">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mx-auto mb-5 sm:mb-6 text-amber-500 dark:text-amber-400">
             <Lock size={32} />
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 text-amber-300 font-semibold text-xs border border-amber-500/25 mb-4">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 text-amber-800 dark:text-amber-300 font-semibold text-xs border border-amber-500/25 mb-4">
             <Sparkles size={13} />
             Adaptive Learning Progression
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">{quiz?.displayTitle || quiz?.title}</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-textPrimary mb-2">{quiz?.displayTitle || quiz?.title}</h2>
           <p className="text-textSecondary text-xs sm:text-sm mb-5 sm:mb-6">
             {quizLockInfo.subject?.title}
           </p>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 sm:p-5 mb-6 sm:mb-8 text-left space-y-3">
+          <div className="bg-black/[0.03] dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl p-4 sm:p-5 mb-6 sm:mb-8 text-left space-y-3">
             <div className="flex items-start gap-3">
-              <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0 mt-1.5" />
+              <span className="w-2 h-2 rounded-full bg-amber-500 dark:bg-amber-400 shrink-0 mt-1.5" />
               <div>
-                <p className="text-xs sm:text-sm font-semibold text-white">Unlock Requirement</p>
+                <p className="text-xs sm:text-sm font-semibold text-textPrimary">Unlock Requirement</p>
                 <p className="text-xs text-textSecondary mt-0.5">{quizLockInfo.lockReason}</p>
               </div>
             </div>
 
-            <div className="pt-2 border-t border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
+            <div className="pt-2 border-t border-black/10 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
               <span className="text-textSecondary">Your Highest Score in Prerequisite:</span>
-              <span className="font-bold text-amber-300">
+              <span className="font-bold text-amber-800 dark:text-amber-300">
                 {quizLockInfo.bestScorePercentage}% <span className="text-textSecondary font-normal">/ {quizLockInfo.requiredPercentage}% needed</span>
               </span>
             </div>
@@ -284,7 +284,7 @@ export default function QuizRunner() {
           <h3 className="text-xl sm:text-2xl font-bold mb-1">Quiz Review</h3>
           {questions.map((q, qIndex) => (
             <div key={q.id} className="p-5 sm:p-8 glass-panel">
-              <h4 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6">{qIndex + 1}. {q.question_text}</h4>
+              <h4 className="text-lg sm:text-xl font-bold text-textPrimary mb-4 sm:mb-6">{qIndex + 1}. {q.question_text}</h4>
               <div className="flex flex-col gap-2.5 sm:gap-3">
                 {q.options.map((option, optIndex) => {
                   let optionClass = "flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 text-left rounded-xl border text-base sm:text-lg font-medium ";
@@ -297,7 +297,7 @@ export default function QuizRunner() {
                   } else if (isUserChoice && !isCorrectChoice) {
                      optionClass += "border-error bg-red-500/10 text-error";
                   } else {
-                     optionClass += "border-white/5 bg-white/5 text-textPrimary";
+                     optionClass += "border-black/10 dark:border-white/5 bg-black/[0.02] dark:bg-white/5 text-textPrimary";
                   }
 
                   return (
@@ -321,19 +321,19 @@ export default function QuizRunner() {
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8 w-full">
       <header className="flex items-center gap-3 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
-        <button onClick={() => navigate(`/subject/${quiz.subject_id}`)} className="flex shrink-0 items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full text-white cursor-pointer transition-all border border-white/5 bg-white/5 hover:bg-white/10">
+        <button onClick={() => navigate(`/subject/${quiz.subject_id}`)} className="flex shrink-0 items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full text-textPrimary cursor-pointer transition-all border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 shadow-xs">
           <ArrowLeft size={18} />
         </button>
         
         <div className="flex-1 min-w-0">
-          <div className="h-2 bg-white/10 rounded-full overflow-hidden mb-2">
+          <div className="h-2 bg-black/10 dark:bg-white/10 rounded-full overflow-hidden mb-2">
             <div className="h-full bg-accent-gradient rounded-full transition-all duration-300" style={{ width: `${progress}%` }}></div>
           </div>
           <div className="flex justify-between items-center text-xs sm:text-sm">
             <span className="text-textSecondary">Question {currentQuestionIndex + 1} of {questions.length}</span>
             
             {timeLeft !== null && (
-              <div className={`flex items-center gap-1.5 font-bold ${timeLeft < 60 ? 'text-error animate-pulse' : 'text-indigo-400'}`}>
+              <div className={`flex items-center gap-1.5 font-bold ${timeLeft < 60 ? 'text-error animate-pulse' : 'text-indigo-600 dark:text-indigo-400'}`}>
                 <Clock size={15} />
                 <span>{formatTime(timeLeft)}</span>
               </div>
@@ -343,7 +343,7 @@ export default function QuizRunner() {
       </header>
 
       <main className="p-5 sm:p-8 md:p-12 glass-panel">
-        <h2 className="text-xl sm:text-2xl font-bold text-white mb-6 sm:mb-8">{currentQuestion.question_text}</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-textPrimary mb-6 sm:mb-8">{currentQuestion.question_text}</h2>
         
         <div className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8">
           {currentQuestion.options.map((option, index) => {
@@ -352,7 +352,7 @@ export default function QuizRunner() {
             if (currentSelection === index) {
               optionClass += "border-accentPrimary bg-indigo-500/10 ";
             } else {
-              optionClass += "border-white/5 bg-white/2 hover:-translate-y-0.5 hover:border-white/15 hover:shadow-lg ";
+              optionClass += "border-black/10 dark:border-white/5 bg-black/[0.02] dark:bg-white/2 hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/15 hover:shadow-md ";
             }
 
             return (

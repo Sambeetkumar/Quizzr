@@ -79,13 +79,13 @@ export default function AttemptResult() {
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8 w-full flex flex-col items-center min-h-[80vh]">
       <div className="w-full mb-6 sm:mb-8">
-        <button onClick={() => navigate('/history')} className="flex shrink-0 items-center gap-2 text-textSecondary hover:text-white transition-colors cursor-pointer bg-white/5 border border-white/5 px-3.5 py-2 rounded-lg hover:bg-white/10 w-fit text-sm">
+        <button onClick={() => navigate('/history')} className="flex shrink-0 items-center gap-2 text-textSecondary hover:text-textPrimary transition-colors cursor-pointer bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/5 px-3.5 py-2 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 w-fit text-sm shadow-xs">
           <ArrowLeft size={16} /> Back to History
         </button>
       </div>
 
       <div className="p-6 sm:p-10 md:p-16 text-center w-full max-w-2xl glass-panel mb-8 sm:mb-12">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Quiz Completed!</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-textPrimary">Quiz Completed!</h2>
         <div className="mb-4">
           <span className="text-5xl sm:text-7xl font-extrabold bg-accent-gradient bg-clip-text text-transparent">{percentage}%</span>
         </div>
@@ -102,13 +102,13 @@ export default function AttemptResult() {
       </div>
 
       <div className="w-full max-w-3xl flex flex-col gap-6 sm:gap-8">
-        <h3 className="text-xl sm:text-2xl font-bold mb-1">Quiz Review</h3>
+        <h3 className="text-xl sm:text-2xl font-bold mb-1 text-textPrimary">Quiz Review</h3>
         {questions.map((q, qIndex) => {
           const userSelectedOption = responsesMap[q.id];
           
           return (
             <div key={q.id} className="p-5 sm:p-8 glass-panel">
-              <h4 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6">{qIndex + 1}. {q.question_text}</h4>
+              <h4 className="text-lg sm:text-xl font-bold text-textPrimary mb-4 sm:mb-6">{qIndex + 1}. {q.question_text}</h4>
               <div className="flex flex-col gap-2.5 sm:gap-3">
                 {q.options.map((option, optIndex) => {
                   let optionClass = "flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 text-left rounded-xl border text-base sm:text-lg font-medium ";
@@ -121,7 +121,7 @@ export default function AttemptResult() {
                   } else if (isUserChoice && !isCorrectChoice) {
                      optionClass += "border-error bg-red-500/10 text-error";
                   } else {
-                     optionClass += "border-white/5 bg-white/5 text-textPrimary";
+                     optionClass += "border-black/10 dark:border-white/5 bg-black/[0.02] dark:bg-white/5 text-textPrimary";
                   }
 
                   return (

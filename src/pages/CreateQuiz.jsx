@@ -276,14 +276,14 @@ export default function CreateQuiz() {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-2 bg-white/5 p-1 rounded-xl border border-white/5 w-full sm:w-auto">
+        <div className="flex items-center gap-2 bg-black/5 dark:bg-white/5 p-1 rounded-xl border border-black/10 dark:border-white/5 w-full sm:w-auto shadow-xs">
           <button
             type="button"
             onClick={() => setActiveTab('create')}
             className={`flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-center ${
               activeTab === 'create'
-                ? 'bg-accent-gradient text-white shadow-lg'
-                : 'text-textSecondary hover:text-white hover:bg-white/5'
+                ? 'bg-accent-gradient text-white shadow-md'
+                : 'text-textSecondary hover:text-textPrimary hover:bg-black/5 dark:hover:bg-white/5'
             }`}
           >
             Create New Quiz
@@ -293,12 +293,12 @@ export default function CreateQuiz() {
             onClick={() => setActiveTab('my-quizzes')}
             className={`flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
               activeTab === 'my-quizzes'
-                ? 'bg-accent-gradient text-white shadow-lg'
-                : 'text-textSecondary hover:text-white hover:bg-white/5'
+                ? 'bg-accent-gradient text-white shadow-md'
+                : 'text-textSecondary hover:text-textPrimary hover:bg-black/5 dark:hover:bg-white/5'
             }`}
           >
             <span>My Quizzes</span>
-            <span className="px-2 py-0.5 rounded-full text-xs bg-white/20 text-white font-bold">
+            <span className="px-2 py-0.5 rounded-full text-xs bg-black/10 dark:bg-white/20 text-textPrimary dark:text-white font-bold">
               {myQuizzes.length}
             </span>
           </button>
@@ -316,14 +316,14 @@ export default function CreateQuiz() {
 
           {/* Quiz Details Card */}
           <div className="p-4 sm:p-6 md:p-8 glass-panel space-y-5 sm:space-y-6">
-            <h2 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 border-b border-white/10 pb-3 sm:pb-4">
+            <h2 className="text-lg sm:text-xl font-bold text-textPrimary flex items-center gap-2 border-b border-black/10 dark:border-white/10 pb-3 sm:pb-4">
               <Layers size={20} className="text-accentPrimary" />
               Quiz Details
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-2">
-                <label className="block text-sm font-semibold text-white">
+                <label className="block text-sm font-semibold text-textPrimary">
                   Quiz Title <span className="text-error">*</span>
                 </label>
                 <input
@@ -332,12 +332,12 @@ export default function CreateQuiz() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. Data Structures Midterm Test"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm sm:text-base text-white placeholder-textSecondary/50 focus:outline-none focus:border-accentPrimary"
+                  className="w-full bg-white dark:bg-white/5 border border-black/15 dark:border-white/10 rounded-xl px-4 py-3 text-sm sm:text-base text-textPrimary placeholder-textSecondary/50 focus:outline-none focus:border-accentPrimary"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-semibold text-white">
+                <label className="block text-sm font-semibold text-textPrimary">
                   Time Limit (Minutes)
                 </label>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
@@ -349,17 +349,17 @@ export default function CreateQuiz() {
                       disabled={isUntimed}
                       value={timeLimit}
                       onChange={(e) => setTimeLimit(e.target.value)}
-                      className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm sm:text-base text-white focus:outline-none focus:border-accentPrimary ${
+                      className={`w-full bg-white dark:bg-white/5 border border-black/15 dark:border-white/10 rounded-xl px-4 py-3 text-sm sm:text-base text-textPrimary focus:outline-none focus:border-accentPrimary ${
                         isUntimed ? 'opacity-40 cursor-not-allowed' : ''
                       }`}
                     />
                   </div>
-                  <label className="flex items-center gap-2 cursor-pointer text-xs sm:text-sm font-medium text-textSecondary hover:text-white select-none shrink-0 py-1">
+                  <label className="flex items-center gap-2 cursor-pointer text-xs sm:text-sm font-medium text-textSecondary hover:text-textPrimary select-none shrink-0 py-1">
                     <input
                       type="checkbox"
                       checked={isUntimed}
                       onChange={(e) => setIsUntimed(e.target.checked)}
-                      className="w-4 h-4 rounded text-accentPrimary focus:ring-0 bg-white/5 border-white/20"
+                      className="w-4 h-4 rounded text-accentPrimary focus:ring-0 bg-white dark:bg-white/5 border-black/20 dark:border-white/20"
                     />
                     <span>Untimed (No limit)</span>
                   </label>
@@ -368,7 +368,7 @@ export default function CreateQuiz() {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-semibold text-white">
+              <label className="block text-sm font-semibold text-textPrimary">
                 Description (Optional)
               </label>
               <textarea
@@ -376,7 +376,7 @@ export default function CreateQuiz() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Briefly describe what this quiz covers, rules, or instructions..."
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm sm:text-base text-white placeholder-textSecondary/50 focus:outline-none focus:border-accentPrimary"
+                className="w-full bg-white dark:bg-white/5 border border-black/15 dark:border-white/10 rounded-xl px-4 py-3 text-sm sm:text-base text-textPrimary placeholder-textSecondary/50 focus:outline-none focus:border-accentPrimary"
               />
             </div>
           </div>
@@ -384,14 +384,14 @@ export default function CreateQuiz() {
           {/* Question Builder */}
           <div className="space-y-4 sm:space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+              <h2 className="text-lg sm:text-xl font-bold text-textPrimary flex items-center gap-2">
                 <ListOrdered size={20} className="text-accentPrimary" />
                 Questions ({questions.length})
               </h2>
               <button
                 type="button"
                 onClick={handleAddQuestion}
-                className="btn btn-outline py-1.5 sm:py-2 px-3 sm:px-4 text-xs sm:text-sm text-accentPrimary hover:text-white"
+                className="btn btn-outline py-1.5 sm:py-2 px-3 sm:px-4 text-xs sm:text-sm text-accentPrimary hover:text-textPrimary"
               >
                 <Plus size={15} className="mr-1" />
                 Add Question
@@ -399,8 +399,8 @@ export default function CreateQuiz() {
             </div>
 
             {questions.map((q, qIndex) => (
-              <div key={qIndex} className="p-4 sm:p-6 md:p-8 glass-panel space-y-4 sm:space-y-6 border border-white/10 relative">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3 sm:pb-4">
+              <div key={qIndex} className="p-4 sm:p-6 md:p-8 glass-panel space-y-4 sm:space-y-6 border border-black/10 dark:border-white/10 relative">
+                <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3 sm:pb-4">
                   <span className="text-sm sm:text-base font-bold text-accentPrimary">
                     Question #{qIndex + 1}
                   </span>
@@ -408,7 +408,7 @@ export default function CreateQuiz() {
                     <button
                       type="button"
                       onClick={() => handleRemoveQuestion(qIndex)}
-                      className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 transition-colors"
+                      className="text-xs text-rose-500 hover:text-rose-600 flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 transition-colors"
                     >
                       <Trash2 size={13} />
                       Delete Question
@@ -418,7 +418,7 @@ export default function CreateQuiz() {
 
                 {/* Question Text */}
                 <div className="space-y-2">
-                  <label className="block text-xs sm:text-sm font-semibold text-white">
+                  <label className="block text-xs sm:text-sm font-semibold text-textPrimary">
                     Question Text
                   </label>
                   <input
@@ -427,14 +427,14 @@ export default function CreateQuiz() {
                     value={q.question_text}
                     onChange={(e) => handleQuestionTextChange(qIndex, e.target.value)}
                     placeholder={`Enter question #${qIndex + 1}...`}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 sm:py-3 text-sm sm:text-base text-white placeholder-textSecondary/50 focus:outline-none focus:border-accentPrimary"
+                    className="w-full bg-white dark:bg-white/5 border border-black/15 dark:border-white/10 rounded-xl px-4 py-2.5 sm:py-3 text-sm sm:text-base text-textPrimary placeholder-textSecondary/50 focus:outline-none focus:border-accentPrimary"
                   />
                 </div>
 
                 {/* Options List */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <label className="block text-xs sm:text-sm font-semibold text-white">
+                    <label className="block text-xs sm:text-sm font-semibold text-textPrimary">
                       Options & Correct Answer
                       <span className="text-xs text-textSecondary font-normal ml-2 hidden sm:inline">
                         (Select the radio button for the correct option)
@@ -443,7 +443,7 @@ export default function CreateQuiz() {
                     <button
                       type="button"
                       onClick={() => handleAddOption(qIndex)}
-                      className="text-xs text-indigo-400 hover:text-white flex items-center gap-1"
+                      className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-textPrimary flex items-center gap-1 font-semibold"
                     >
                       <Plus size={14} />
                       Add Option
@@ -459,7 +459,7 @@ export default function CreateQuiz() {
                             name={`correct_opt_${qIndex}`}
                             checked={q.correct_option_index === optIndex}
                             onChange={() => handleCorrectOptionChange(qIndex, optIndex)}
-                            className="w-4 h-4 sm:w-5 sm:h-5 text-accentPrimary focus:ring-0 bg-white/5 border-white/20 cursor-pointer"
+                            className="w-4 h-4 sm:w-5 sm:h-5 text-accentPrimary focus:ring-0 bg-white dark:bg-white/5 border-black/20 dark:border-white/20 cursor-pointer"
                           />
                         </label>
 
@@ -470,16 +470,16 @@ export default function CreateQuiz() {
                             value={optionText}
                             onChange={(e) => handleOptionChange(qIndex, optIndex, e.target.value)}
                             placeholder={`Option ${optIndex + 1}`}
-                            className={`w-full bg-white/5 border rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-white focus:outline-none ${
+                            className={`w-full bg-white dark:bg-white/5 border rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-textPrimary focus:outline-none ${
                               q.correct_option_index === optIndex 
-                                ? 'border-emerald-500/50 bg-emerald-500/5' 
-                                : 'border-white/10 focus:border-accentPrimary'
+                                ? 'border-emerald-500/60 bg-emerald-500/10' 
+                                : 'border-black/15 dark:border-white/10 focus:border-accentPrimary'
                             }`}
                           />
                         </div>
 
                         {q.correct_option_index === optIndex && (
-                          <span className="text-xs text-emerald-400 font-bold shrink-0 hidden md:inline">
+                          <span className="text-xs text-emerald-700 dark:text-emerald-400 font-bold shrink-0 hidden md:inline">
                             ✓ Correct Key
                           </span>
                         )}
@@ -488,7 +488,7 @@ export default function CreateQuiz() {
                           <button
                             type="button"
                             onClick={() => handleRemoveOption(qIndex, optIndex)}
-                            className="p-1.5 sm:p-2 text-textSecondary hover:text-red-400 transition-colors shrink-0"
+                            className="p-1.5 sm:p-2 text-textSecondary hover:text-rose-500 transition-colors shrink-0"
                             title="Remove this option"
                           >
                             <Trash2 size={15} />
@@ -504,7 +504,7 @@ export default function CreateQuiz() {
             <button
               type="button"
               onClick={handleAddQuestion}
-              className="w-full py-3.5 sm:py-4 rounded-2xl border-2 border-dashed border-white/15 hover:border-accentPrimary/50 bg-white/2 hover:bg-white/5 text-textSecondary hover:text-white transition-all flex items-center justify-center gap-2 font-semibold text-xs sm:text-sm cursor-pointer"
+              className="w-full py-3.5 sm:py-4 rounded-2xl border-2 border-dashed border-black/15 dark:border-white/15 hover:border-accentPrimary/50 bg-black/[0.02] dark:bg-white/2 hover:bg-black/5 dark:hover:bg-white/5 text-textSecondary hover:text-textPrimary transition-all flex items-center justify-center gap-2 font-semibold text-xs sm:text-sm cursor-pointer shadow-xs"
             >
               <PlusCircle size={18} />
               Add Another Question
@@ -538,8 +538,8 @@ export default function CreateQuiz() {
             <Spinner message="Loading your created quizzes..." />
           ) : myQuizzes.length === 0 ? (
             <div className="p-8 sm:p-16 text-center glass-panel flex flex-col items-center justify-center gap-4">
-              <Layers size={48} className="text-white/20 mb-2" />
-              <h3 className="text-xl sm:text-2xl font-bold text-white">No Quizzes Created Yet</h3>
+              <Layers size={48} className="text-black/20 dark:text-white/20 mb-2" />
+              <h3 className="text-xl sm:text-2xl font-bold text-textPrimary">No Quizzes Created Yet</h3>
               <p className="text-textSecondary text-xs sm:text-sm max-w-md">
                 You haven't created any custom quizzes yet. Start designing your first quiz with custom questions and share it with candidates!
               </p>

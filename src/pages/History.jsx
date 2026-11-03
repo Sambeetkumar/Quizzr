@@ -63,13 +63,13 @@ export default function History() {
         <div className="glass-panel overflow-hidden">
           <div className="overflow-x-auto">
             <div className="min-w-[550px]">
-              <div className="grid grid-cols-4 gap-4 p-4 sm:p-6 bg-white/5 border-b border-white/5 font-semibold text-textSecondary text-xs sm:text-sm">
+              <div className="grid grid-cols-4 gap-4 p-4 sm:p-6 bg-black/[0.03] dark:bg-white/5 border-b border-black/10 dark:border-white/5 font-semibold text-textSecondary text-xs sm:text-sm">
                 <div>Subject</div>
                 <div>Quiz</div>
                 <div>Score</div>
                 <div>Attempted On</div>
               </div>
-              <div className="divide-y divide-white/5">
+              <div className="divide-y divide-black/10 dark:divide-white/5">
                 {attempts.map((attempt) => {
                   // Supabase relations can be returned as objects or arrays. For one-to-many from the many side, they are usually objects.
                   // Handle potential array mapping gracefully just in case.
@@ -91,12 +91,12 @@ export default function History() {
                   return (
                     <div 
                       key={attempt.id} 
-                      className="grid grid-cols-4 gap-4 p-4 sm:p-6 items-center hover:bg-white/5 cursor-pointer transition-colors group relative text-sm sm:text-base"
+                      className="grid grid-cols-4 gap-4 p-4 sm:p-6 items-center hover:bg-black/[0.03] dark:hover:bg-white/5 cursor-pointer transition-colors group relative text-sm sm:text-base"
                       onClick={() => navigate(`/history/attempt/${attempt.id}`)}
                     >
-                      <div className="font-medium flex items-center gap-2">{subjectTitle}</div>
+                      <div className="font-medium flex items-center gap-2 text-textPrimary">{subjectTitle}</div>
                       <div className="flex items-center gap-2">
-                        <span className="truncate pr-1">{quizTitle}</span>
+                        <span className="truncate pr-1 text-textPrimary font-medium">{quizTitle}</span>
                         {badgeStyle && (
                           <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold border shrink-0 ${badgeStyle.className}`}>
                             {badgeStyle.label}
@@ -108,7 +108,7 @@ export default function History() {
                       </div>
                       <div className="text-xs sm:text-sm text-textSecondary flex justify-between items-center pr-4">
                         <span className="flex items-center gap-1.5"><Clock size={14} /> {date}</span>
-                        <ChevronRight size={18} className="text-white/20 group-hover:text-white/80 transition-colors shrink-0 ml-2" />
+                        <ChevronRight size={18} className="text-black/20 dark:text-white/20 group-hover:text-textPrimary transition-colors shrink-0 ml-2" />
                       </div>
                     </div>
                   );

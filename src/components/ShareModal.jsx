@@ -143,12 +143,12 @@ export default function ShareModal({ quiz, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto glass-panel p-5 sm:p-8 border border-white/10 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 dark:bg-black/80 backdrop-blur-sm animate-fadeIn">
+      <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto glass-panel p-5 sm:p-8 border border-black/10 dark:border-white/10 shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 sm:pb-4 mb-4 sm:mb-6 border-b border-white/10">
+        <div className="flex items-center justify-between pb-3 sm:pb-4 mb-4 sm:mb-6 border-b border-black/10 dark:border-white/10">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-bold text-textPrimary flex items-center gap-2">
               <LinkIcon className="text-accentPrimary" size={20} />
               Share Quiz
             </h2>
@@ -157,7 +157,7 @@ export default function ShareModal({ quiz, onClose }) {
           <button 
             type="button"
             onClick={onClose} 
-            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 text-textSecondary hover:text-white transition-colors shrink-0"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-textSecondary hover:text-textPrimary transition-colors shrink-0"
           >
             <X size={18} />
           </button>
@@ -165,7 +165,7 @@ export default function ShareModal({ quiz, onClose }) {
 
         {/* Validity Selector */}
         <div className="mb-6 space-y-3">
-          <label className="block text-sm font-semibold text-white">
+          <label className="block text-sm font-semibold text-textPrimary">
             Link Validity / Expiration
           </label>
 
@@ -190,8 +190,8 @@ export default function ShareModal({ quiz, onClose }) {
                 }}
                 className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all border ${
                   duration === preset.id 
-                    ? 'border-accentPrimary bg-accentPrimary/20 text-white shadow-sm' 
-                    : 'border-white/5 bg-white/5 text-textSecondary hover:text-white hover:bg-white/10'
+                    ? 'border-accentPrimary bg-accentPrimary/15 text-accentPrimary font-bold shadow-xs' 
+                    : 'border-black/10 dark:border-white/5 bg-black/5 dark:bg-white/5 text-textSecondary hover:text-textPrimary hover:bg-black/10 dark:hover:bg-white/10'
                 }`}
               >
                 {preset.label}
@@ -201,9 +201,9 @@ export default function ShareModal({ quiz, onClose }) {
 
           {/* Custom Date & Time Picker Container */}
           {duration === 'custom' && (
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3 animate-fadeIn mt-3">
+            <div className="p-4 rounded-2xl bg-black/[0.03] dark:bg-white/5 border border-black/10 dark:border-white/10 space-y-3 animate-fadeIn mt-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-white flex items-center gap-1.5">
+                <span className="text-xs font-semibold text-textPrimary flex items-center gap-1.5">
                   <Calendar size={14} className="text-accentPrimary" />
                   Select Date & Time (Your Local Time)
                 </span>
@@ -218,13 +218,12 @@ export default function ShareModal({ quiz, onClose }) {
                   value={customDateTime}
                   onChange={(e) => setCustomDateTime(e.target.value)}
                   min={toLocalISOString(new Date())}
-                  style={{ colorScheme: 'dark' }}
                   onClick={(e) => {
                     try {
                       if (e.target.showPicker) e.target.showPicker();
                     } catch (_) {}
                   }}
-                  className="w-full bg-black/40 border border-white/15 rounded-xl px-4 py-3 text-sm text-white font-medium focus:outline-none focus:border-accentPrimary cursor-pointer transition-colors"
+                  className="w-full bg-white dark:bg-black/40 border border-black/15 dark:border-white/15 rounded-xl px-4 py-3 text-sm text-textPrimary font-medium focus:outline-none focus:border-accentPrimary cursor-pointer transition-colors shadow-xs"
                 />
               </div>
 
@@ -236,7 +235,7 @@ export default function ShareModal({ quiz, onClose }) {
                 </p>
               ) : customDateTime ? (
                 <p className="text-xs text-textSecondary pt-0.5">
-                  Link will expire on: <strong className="text-white">{customPreviewFormatted()}</strong>
+                  Link will expire on: <strong className="text-textPrimary">{customPreviewFormatted()}</strong>
                 </p>
               ) : null}
             </div>
@@ -268,12 +267,12 @@ export default function ShareModal({ quiz, onClose }) {
             <span className="block text-xs font-semibold text-accentPrimary uppercase tracking-wider mb-1.5">
               Link Ready to Share
             </span>
-            <div className="flex items-center gap-2 bg-black/40 p-2 rounded-lg border border-white/10">
+            <div className="flex items-center gap-2 bg-white dark:bg-black/40 p-2 rounded-lg border border-black/10 dark:border-white/10">
               <input
                 type="text"
                 readOnly
                 value={generatedLink}
-                className="flex-1 bg-transparent text-sm text-white focus:outline-none truncate"
+                className="flex-1 bg-transparent text-sm text-textPrimary focus:outline-none truncate"
               />
               <button
                 type="button"
@@ -292,8 +291,8 @@ export default function ShareModal({ quiz, onClose }) {
 
         {/* Active Share Links List */}
         <div>
-          <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-            <Clock size={16} className="text-indigo-400" />
+          <h3 className="text-sm font-semibold text-textPrimary mb-3 flex items-center gap-2">
+            <Clock size={16} className="text-indigo-600 dark:text-indigo-400" />
             Active Share Links ({existingShares.length})
           </h3>
 
@@ -313,27 +312,27 @@ export default function ShareModal({ quiz, onClose }) {
                 return (
                   <div 
                     key={share.id}
-                    className="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between gap-3 text-xs"
+                    className="p-3 rounded-xl bg-white dark:bg-white/5 border border-black/10 dark:border-white/5 flex items-center justify-between gap-3 text-xs shadow-xs"
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                           isExpired 
-                            ? 'bg-red-500/20 text-red-400' 
-                            : 'bg-emerald-500/20 text-emerald-400'
+                            ? 'bg-red-500/15 text-red-700 dark:text-red-400' 
+                            : 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400'
                         }`}>
                           {isExpired ? 'Expired' : 'Active'}
                         </span>
                         <span className="text-textSecondary truncate">Expires: {expiresFormatted}</span>
                       </div>
-                      <p className="text-white/60 truncate font-mono text-[11px]">{shareUrl}</p>
+                      <p className="text-textSecondary truncate font-mono text-[11px]">{shareUrl}</p>
                     </div>
 
                     <div className="flex items-center gap-1.5 shrink-0">
                       <button
                         type="button"
                         onClick={() => handleCopy(shareUrl)}
-                        className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-textSecondary hover:text-white transition-colors"
+                        className="p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-textSecondary hover:text-textPrimary transition-colors"
                         title="Copy link"
                       >
                         <Copy size={14} />
@@ -341,7 +340,7 @@ export default function ShareModal({ quiz, onClose }) {
                       <button
                         type="button"
                         onClick={() => handleRevoke(share.id)}
-                        className="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors"
+                        className="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 transition-colors"
                         title="Revoke / Delete link"
                       >
                         <Trash2 size={14} />

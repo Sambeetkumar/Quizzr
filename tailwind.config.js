@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,10 +8,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        bgPrimary: '#0a0a0c',
-        bgSecondary: '#121217',
-        textPrimary: '#f2f2f2',
-        textSecondary: '#a1a1aa',
+        bgPrimary: 'var(--bg-primary)',
+        bgSecondary: 'var(--bg-secondary)',
+        textPrimary: 'var(--text-primary)',
+        textSecondary: 'var(--text-secondary)',
+        cardBg: 'var(--card-bg)',
+        cardBorder: 'var(--card-border)',
         accentPrimary: '#6366f1',
         accentHover: '#4f46e5',
         success: '#10b981',

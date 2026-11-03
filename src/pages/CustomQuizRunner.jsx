@@ -242,23 +242,23 @@ export default function CustomQuizRunner() {
 
     return (
       <div className="max-w-2xl mx-auto p-4 sm:p-6 md:p-8 w-full min-h-[75vh] flex items-center justify-center animate-fadeIn">
-        <div className="glass-panel p-6 sm:p-8 md:p-10 w-full space-y-5 sm:space-y-6 border border-white/10 shadow-2xl relative overflow-hidden text-center">
+        <div className="glass-panel p-6 sm:p-8 md:p-10 w-full space-y-5 sm:space-y-6 border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden text-center">
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/15 text-accentPrimary flex items-center justify-center mx-auto mb-2">
             <CheckCircle2 size={32} />
           </div>
 
           <div className="space-y-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-accentPrimary/20 text-accentPrimary border border-accentPrimary/30">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-accentPrimary/15 text-accentPrimary border border-accentPrimary/25">
               Single Attempt Policy
             </span>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white">{quiz.title}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-textPrimary">{quiz.title}</h1>
             <p className="text-textSecondary text-xs sm:text-sm max-w-md mx-auto">
-              You have already completed your attempt for this quiz on <strong className="text-white">{attemptedDate}</strong>.
+              You have already completed your attempt for this quiz on <strong className="text-textPrimary">{attemptedDate}</strong>.
               Only one attempt per candidate is allowed.
             </p>
           </div>
 
-          <div className="p-5 sm:p-6 rounded-2xl bg-white/5 border border-white/5 max-w-sm mx-auto">
+          <div className="p-5 sm:p-6 rounded-2xl bg-black/[0.03] dark:bg-white/5 border border-black/10 dark:border-white/5 max-w-sm mx-auto">
             <span className="text-xs text-textSecondary uppercase tracking-wider block mb-1">Your Submitted Score</span>
             <span className="text-4xl sm:text-5xl font-extrabold bg-accent-gradient bg-clip-text text-transparent block mb-1">
               {pct}%
@@ -295,20 +295,20 @@ export default function CustomQuizRunner() {
     return (
       <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8 w-full flex flex-col items-center min-h-[80vh] animate-fadeIn">
         {/* Score Summary Card */}
-        <div className="p-6 sm:p-10 md:p-14 text-center w-full max-w-2xl glass-panel mb-8 sm:mb-10 border border-white/10 shadow-2xl">
+        <div className="p-6 sm:p-10 md:p-14 text-center w-full max-w-2xl glass-panel mb-8 sm:mb-10 border border-black/10 dark:border-white/10 shadow-2xl">
           {timeLeft === 0 && (
             <div className="text-error font-bold mb-4 flex items-center justify-center gap-2">
               <Clock size={18} /> Time's Up!
             </div>
           )}
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6">Quiz Completed!</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-textPrimary mb-4 sm:mb-6">Quiz Completed!</h2>
           <div className="mb-4">
             <span className="text-5xl sm:text-7xl font-extrabold bg-accent-gradient bg-clip-text text-transparent">
               {percentage}%
             </span>
           </div>
           <p className="text-base sm:text-lg text-textSecondary">
-            You scored <strong className="text-white">{score}</strong> out of <strong className="text-white">{questions.length}</strong>
+            You scored <strong className="text-textPrimary">{score}</strong> out of <strong className="text-textPrimary">{questions.length}</strong>
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-6 sm:mt-8">
@@ -325,9 +325,9 @@ export default function CustomQuizRunner() {
 
         {/* Question Review Section with Report Button */}
         <div className="w-full max-w-3xl flex flex-col gap-4 sm:gap-6">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+          <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
             <div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white">Question Review</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-textPrimary">Question Review</h3>
               <p className="text-xs text-textSecondary mt-0.5">
                 Notice any ambiguity or errors? Use the report button on any question to notify the owner.
               </p>
@@ -340,9 +340,9 @@ export default function CustomQuizRunner() {
             const isReported = reportedQuestionIds.has(q.id);
 
             return (
-              <div key={q.id} className="p-4 sm:p-6 md:p-8 glass-panel border border-white/10 space-y-3 sm:space-y-4">
+              <div key={q.id} className="p-4 sm:p-6 md:p-8 glass-panel border border-black/10 dark:border-white/10 space-y-3 sm:space-y-4">
                 <div className="flex items-start justify-between gap-3">
-                  <h4 className="text-lg font-bold text-white flex-1">
+                  <h4 className="text-lg font-bold text-textPrimary flex-1">
                     {qIndex + 1}. {q.question_text}
                   </h4>
 
@@ -355,8 +355,8 @@ export default function CustomQuizRunner() {
                     }}
                     className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shrink-0 ${
                       isReported
-                        ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
-                        : 'bg-white/5 hover:bg-amber-500/15 text-textSecondary hover:text-amber-300 border border-white/5 hover:border-amber-500/30'
+                        ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30'
+                        : 'bg-black/5 dark:bg-white/5 hover:bg-amber-500/15 text-textSecondary hover:text-amber-800 dark:hover:text-amber-300 border border-black/10 dark:border-white/5 hover:border-amber-500/30'
                     }`}
                     title="Report an issue or comment on this question"
                   >
@@ -373,23 +373,23 @@ export default function CustomQuizRunner() {
                     const isTargetCorrect = q.correct_option_index === optIndex;
 
                     if (isTargetCorrect) {
-                      optionClass += "border-emerald-500/50 bg-emerald-500/10 text-emerald-300";
+                      optionClass += "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300";
                     } else if (isUserChoice && !isTargetCorrect) {
-                      optionClass += "border-red-500/50 bg-red-500/10 text-red-300";
+                      optionClass += "border-red-500/50 bg-red-500/10 text-red-700 dark:text-red-300";
                     } else {
-                      optionClass += "border-white/5 bg-white/5 text-textSecondary";
+                      optionClass += "border-black/10 dark:border-white/5 bg-black/[0.02] dark:bg-white/5 text-textPrimary";
                     }
 
                     return (
                       <div key={optIndex} className={optionClass}>
                         <span>{option}</span>
                         {isTargetCorrect && (
-                          <span className="flex items-center gap-1 text-xs text-emerald-400 font-bold shrink-0">
+                          <span className="flex items-center gap-1 text-xs text-emerald-700 dark:text-emerald-400 font-bold shrink-0">
                             <CheckCircle size={16} /> Correct
                           </span>
                         )}
                         {isUserChoice && !isTargetCorrect && (
-                          <span className="flex items-center gap-1 text-xs text-red-400 font-bold shrink-0">
+                          <span className="flex items-center gap-1 text-xs text-red-600 dark:text-red-400 font-bold shrink-0">
                             <XCircle size={16} /> Your Choice
                           </span>
                         )}
@@ -436,13 +436,13 @@ export default function CustomQuizRunner() {
               navigate('/dashboard');
             }
           }}
-          className="flex shrink-0 items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full text-white cursor-pointer transition-all border border-white/5 bg-white/5 hover:bg-white/10"
+          className="flex shrink-0 items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full text-textPrimary cursor-pointer transition-all border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 shadow-xs"
         >
           <ArrowLeft size={18} />
         </button>
 
         <div className="flex-1 min-w-0">
-          <div className="h-2 bg-white/10 rounded-full overflow-hidden mb-2">
+          <div className="h-2 bg-black/10 dark:bg-white/10 rounded-full overflow-hidden mb-2">
             <div
               className="h-full bg-accent-gradient rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
@@ -455,7 +455,7 @@ export default function CustomQuizRunner() {
 
             {timeLeft !== null && (
               <div className={`flex items-center gap-1.5 font-bold ${
-                timeLeft < 60 ? 'text-error animate-pulse' : 'text-indigo-400'
+                timeLeft < 60 ? 'text-error animate-pulse' : 'text-indigo-600 dark:text-indigo-400'
               }`}>
                 <Clock size={15} />
                 <span>{formatTime(timeLeft)}</span>
@@ -466,8 +466,8 @@ export default function CustomQuizRunner() {
       </header>
 
       {/* Main Question Card */}
-      <main className="p-5 sm:p-8 md:p-12 glass-panel border border-white/10 shadow-2xl">
-        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-6 sm:mb-8 leading-snug">
+      <main className="p-5 sm:p-8 md:p-12 glass-panel border border-black/10 dark:border-white/10 shadow-2xl">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-textPrimary mb-6 sm:mb-8 leading-snug">
           {currentQuestion.question_text}
         </h2>
 
@@ -479,7 +479,7 @@ export default function CustomQuizRunner() {
             if (currentSelection === index) {
               optionClass += "border-accentPrimary bg-indigo-500/15 shadow-md shadow-indigo-500/10 ";
             } else {
-              optionClass += "border-white/5 bg-white/2 hover:-translate-y-0.5 hover:border-white/15 hover:shadow-lg ";
+              optionClass += "border-black/10 dark:border-white/5 bg-white dark:bg-white/2 hover:-translate-y-0.5 hover:border-black/20 dark:hover:border-white/15 hover:shadow-md ";
             }
 
             return (

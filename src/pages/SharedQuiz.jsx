@@ -157,13 +157,13 @@ export default function SharedQuiz() {
 
     return (
       <div className="max-w-xl mx-auto p-4 sm:p-8 w-full min-h-[70vh] flex items-center justify-center">
-        <div className="glass-panel p-6 sm:p-10 text-center w-full space-y-4 border border-white/10">
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center mx-auto mb-2">
+        <div className="glass-panel p-6 sm:p-10 text-center w-full space-y-4 border border-black/10 dark:border-white/10">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-amber-500/10 text-amber-500 dark:text-amber-400 flex items-center justify-center mx-auto mb-2">
             <Clock size={28} />
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white">Quiz Link Expired</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-textPrimary">Quiz Link Expired</h2>
           <p className="text-textSecondary text-xs sm:text-sm max-w-sm mx-auto">
-            This temporary link expired on <strong className="text-white">{expiredDate}</strong>.
+            This temporary link expired on <strong className="text-textPrimary">{expiredDate}</strong>.
             The owner sets a time limit on this link. Please reach out to the quiz owner to request a fresh invitation link.
           </p>
           <div className="pt-2 sm:pt-4">
@@ -189,24 +189,24 @@ export default function SharedQuiz() {
 
     return (
       <div className="max-w-2xl mx-auto p-4 sm:p-8 w-full min-h-[75vh] flex items-center justify-center animate-fadeIn">
-        <div className="glass-panel p-6 sm:p-10 w-full space-y-5 sm:space-y-6 border border-white/10 shadow-2xl relative overflow-hidden text-center">
+        <div className="glass-panel p-6 sm:p-10 w-full space-y-5 sm:space-y-6 border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden text-center">
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/15 text-accentPrimary flex items-center justify-center mx-auto mb-2">
             <CheckCircle2 size={32} />
           </div>
 
           <div className="space-y-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-accentPrimary/20 text-accentPrimary border border-accentPrimary/30">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-accentPrimary/15 text-accentPrimary border border-accentPrimary/25">
               Single Attempt Policy
             </span>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white">{quizData.title}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-textPrimary">{quizData.title}</h1>
             <p className="text-textSecondary text-xs sm:text-sm max-w-md mx-auto">
-              You have already submitted your attempt for this quiz on <strong className="text-white">{attemptedDate}</strong>.
+              You have already submitted your attempt for this quiz on <strong className="text-textPrimary">{attemptedDate}</strong>.
               Multiple attempts are not allowed.
             </p>
           </div>
 
           {/* Previous Score Display */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-white/5 border border-white/5 max-w-sm mx-auto">
+          <div className="p-5 sm:p-6 rounded-2xl bg-black/[0.03] dark:bg-white/5 border border-black/10 dark:border-white/5 max-w-sm mx-auto">
             <span className="text-xs text-textSecondary uppercase tracking-wider block mb-1">Your Score</span>
             <span className="text-4xl sm:text-5xl font-extrabold bg-accent-gradient bg-clip-text text-transparent block mb-1">
               {percentage}%
@@ -238,14 +238,14 @@ export default function SharedQuiz() {
 
   return (
     <div className="max-w-2xl mx-auto p-4 sm:p-8 w-full min-h-[75vh] flex items-center justify-center animate-fadeIn">
-      <div className="glass-panel p-6 sm:p-10 w-full space-y-5 sm:space-y-6 border border-white/10 shadow-2xl relative overflow-hidden">
+      <div className="glass-panel p-6 sm:p-10 w-full space-y-5 sm:space-y-6 border border-black/10 dark:border-white/10 shadow-2xl relative overflow-hidden">
         {/* Top Glow & Badge */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/10 gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 w-fit">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-black/10 dark:border-white/10 gap-2">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 w-fit">
             <ShieldCheck size={14} /> Link Valid
           </span>
           <span className="text-xs text-textSecondary flex items-center gap-1">
-            <Clock size={13} /> Expires: <span className="text-white font-medium">{expiresDate}</span>
+            <Clock size={13} /> Expires: <span className="text-textPrimary font-medium">{expiresDate}</span>
           </span>
         </div>
 
@@ -254,7 +254,7 @@ export default function SharedQuiz() {
           <span className="text-xs font-bold uppercase tracking-wider text-accentPrimary block">
             Quiz Invitation
           </span>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">{quizData.title}</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-textPrimary">{quizData.title}</h1>
           <p className="text-textSecondary text-sm sm:text-base leading-relaxed">
             {quizData.description || 'You have been invited to attempt this custom quiz. Good luck!'}
           </p>
@@ -262,22 +262,22 @@ export default function SharedQuiz() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4 py-2 sm:py-3">
-          <div className="p-3 sm:p-4 rounded-xl bg-white/5 border border-white/5 flex items-center gap-2.5 sm:gap-3">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-accentPrimary/20 text-accentPrimary flex items-center justify-center shrink-0">
+          <div className="p-3 sm:p-4 rounded-xl bg-black/[0.03] dark:bg-white/5 border border-black/10 dark:border-white/5 flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-accentPrimary/15 text-accentPrimary flex items-center justify-center shrink-0">
               <HelpCircle size={18} />
             </div>
             <div>
-              <span className="block text-base sm:text-lg font-bold text-white">{questionCount}</span>
+              <span className="block text-base sm:text-lg font-bold text-textPrimary">{questionCount}</span>
               <span className="text-[11px] sm:text-xs text-textSecondary uppercase">Questions</span>
             </div>
           </div>
 
-          <div className="p-3 sm:p-4 rounded-xl bg-white/5 border border-white/5 flex items-center gap-2.5 sm:gap-3">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
+          <div className="p-3 sm:p-4 rounded-xl bg-black/[0.03] dark:bg-white/5 border border-black/10 dark:border-white/5 flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
               {quizData.time_limit ? <Clock size={18} /> : <Infinity size={18} />}
             </div>
             <div>
-              <span className="block text-base sm:text-lg font-bold text-white">
+              <span className="block text-base sm:text-lg font-bold text-textPrimary">
                 {quizData.time_limit ? `${quizData.time_limit} Mins` : 'Untimed'}
               </span>
               <span className="text-[11px] sm:text-xs text-textSecondary uppercase">Time Limit</span>

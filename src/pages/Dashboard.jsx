@@ -48,19 +48,19 @@ export default function Dashboard() {
         ) : subjects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {subjects.map(subject => (
-              <Link to={`/subject/${subject.id}`} key={subject.id} className="p-5 sm:p-6 md:p-8 flex flex-col gap-3 sm:gap-4 text-white no-underline glass-panel card-hover">
-                <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-accentPrimary">
+              <Link to={`/subject/${subject.id}`} key={subject.id} className="p-5 sm:p-6 md:p-8 flex flex-col gap-3 sm:gap-4 text-textPrimary no-underline glass-panel card-hover">
+                <div className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/5 flex items-center justify-center text-accentPrimary">
                   <BookOpen />
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold">{subject.title}</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-textPrimary">{subject.title}</h3>
                 <p className="text-sm text-textSecondary line-clamp-2 leading-relaxed">{subject.description}</p>
               </Link>
             ))}
           </div>
         ) : (
           <div className="p-8 sm:p-16 text-center flex flex-col items-center justify-center gap-4 text-textSecondary glass-panel">
-            <BookOpen size={48} className="text-white/20 mb-4" />
-            <h3 className="text-xl font-bold text-white">No subjects found</h3>
+            <BookOpen size={48} className="text-black/20 dark:text-white/20 mb-4" />
+            <h3 className="text-xl font-bold text-textPrimary">No subjects found</h3>
             <p>Check back later for new content or contact the administrator.</p>
           </div>
         )}
